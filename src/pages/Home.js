@@ -8,7 +8,7 @@ const Home = () => {
     useEffect(() => {
         let username = sessionStorage.getItem('username');
         if (username === '' || username === null) {
-            usenavigate('/login');
+            usenavigate('/account/login');
         }
 
         fetch("https://cors-anywhere.herokuapp.com/https://netzwelt-devtest.azurewebsites.net/Territories/All", {
@@ -21,8 +21,9 @@ const Home = () => {
         }).catch((err) => {
             console.log(err.messsage)
         });
-
+    //eslint-disable-next-line
     }, []);
+
     
 
 
@@ -46,9 +47,9 @@ function list_to_tree(list) {
     return roots;
 }
 
-  console.log( 'initial', territories );
+ // console.log( 'initial', territories );
   let sorted_territories = list_to_tree(territories) ;
-  console.log('sorted',sorted_territories);
+  //console.log('sorted',sorted_territories);
   
   const App = () => (
     <form>
@@ -59,7 +60,7 @@ function list_to_tree(list) {
   const Tree = ({data}) => ( 
     <ul>
       {data && data.map(item => (
-        <li>
+        <li key={item.id}>
           {item.name}
           {item.children && <Tree data={item.children} />}
         </li>
@@ -71,7 +72,7 @@ function list_to_tree(list) {
         <div>
         <div className="header">
             <Link to={'/'}>Home</Link>
-            <Link style={{ float: 'right' }} to={'/login'}>Logout</Link>
+            <Link style={{ float: "right" }} to={"/account/login"}>Logout</Link>
         </div>
         <h1 className="text-center">Territories</h1>
         <h5 className="text-center">Here are the list of territories</h5>

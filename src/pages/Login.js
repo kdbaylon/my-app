@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -16,43 +16,41 @@ sessionStorage.clear();
     const ProceedLoginusingAPI = (e) => {
         e.preventDefault();
         if (validate()) {
-            ///implementation
-            // console.log('proceed');
+            
             let inputobj={"username": username,
             "password": password};
             fetch("https://cors-anywhere.herokuapp.com/https://netzwelt-devtest.azurewebsites.net/Account/SignIn",{
-                method:'POST',
-                headers:{'content-type':'application/json'},
+                method:"POST",
+                headers:{"content-type":"application/json"},
                 body:JSON.stringify(inputobj)
-            // }).then((res) => {
-            //     return res.json();
+            
             }).then((resp) => {
-                console.log("resp " + resp.status)
+                //console.log("resp" + resp.status)
                 console.log(resp)
                 if(resp.ok ===false){ 
-                    console.log("resp " + resp.status)
-                 throw new Error("Invalid credentials")
+                  //  console.log("resp" + resp.status)
+                 throw new Error("Invalid username or password")
                 }
                 else{
-                     toast.success('Success');
-                     sessionStorage.setItem('username',username);
-                     sessionStorage.setItem('jwttoken',resp.jwtToken);
-                   usenavigate('/')
+                     toast.success("Success");
+                     sessionStorage.setItem("username",username);
+                     sessionStorage.setItem("jwttoken",resp.jwtToken);
+                   usenavigate('/home/index')
                 }
             }).catch((err) => {
-                toast.error('Login Failed due to :' + err.message);
+                toast.error("Invalid username or password");
             });
         }
     }
     const validate = () => {
         let result = true;
-        if (username === '' || username === null) {
+        if (username === "" || username === null) {
             result = false;
-            toast.warning('Please Enter Username');
+            toast.warning("Please Enter Username");
         }
-        if (password === '' || password === null) {
+        if (password === "" || password === null) {
             result = false;
-            toast.warning('Please Enter Password');
+            toast.warning("Please Enter Password");
         }
         return result;
     }
